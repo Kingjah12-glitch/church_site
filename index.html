@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Church of Christ, Abakaliki</title>
+<meta name="description" content="Church of Christ, 35 Onwe Road, Abakaliki. Sunday service from 8:45 AM. Weekly classes, order of service and contacts.">
+<link rel="icon" href="images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf7f4;--surface:#fff;--ink:#1d2340;--muted:#5a6078;--red:#c9302a;--red-deep:#8f1d1a;--navy:#1d2f6f;--on-red:#fff8f5;--gold:#f2c230;--gold-soft:#fdf1c9;--line:#eadfd9}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{font-family:Newsreader,Georgia,serif;line-height:1.15;margin:0 0 .5em}
+h2{font-size:clamp(1.7rem,4vw,2.4rem)}
+h3{font-size:1.2rem;margin-bottom:.3em}
+p{margin:0 0 1em;max-width:62ch}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 1.25rem}
+section{padding:4.5rem 0}
+.band{background:var(--surface);border-block:1px solid var(--line)}
+
+/* Header */
+.top{position:sticky;top:0;z-index:20;background:var(--red);color:var(--on-red);box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:64px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:.7rem;font-family:Newsreader,Georgia,serif;font-weight:700;font-size:1.25rem;text-decoration:none}
+.brand img{width:44px;height:44px}
+.top nav{display:flex;gap:1.2rem;flex-wrap:wrap}
+.top nav a{text-decoration:none;font-weight:500;font-size:.95rem;padding:.25rem 0}
+.top nav a:hover{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:6px}
+
+/* Hero */
+.hero{background:linear-gradient(160deg,var(--red) 0%,var(--red-deep) 100%);color:var(--on-red);padding:5rem 0 4.5rem}
+.hero .wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:3rem;align-items:center}
+.hero h1{font-size:clamp(2.6rem,7vw,4.6rem);max-width:12ch;margin:0 0 .4em}
+.lead{font-size:1.25rem;color:#ffe3dc;max-width:46ch}
+.hero-logo{width:min(100%,340px);justify-self:center;filter:drop-shadow(0 12px 30px rgba(0,0,0,.35))}
+
+/* Buttons */
+.btns{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.6rem}
+.btn{display:inline-block;padding:.8rem 1.4rem;border-radius:999px;font-weight:600;text-decoration:none;border:2px solid var(--gold)}
+.btn.solid{background:var(--gold);color:#2a1d02}
+.btn:hover{filter:brightness(1.08)}
+
+/* Next service */
+.next{display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap;background:var(--navy);color:#f4f7fc;border-radius:14px;padding:1.6rem 1.8rem;border-left:6px solid var(--gold);margin-bottom:3rem}
+.next h2{font-family:Figtree,sans-serif;font-size:1rem;font-weight:600;color:#b9c4e6;margin:0 0 .3rem}
+.next-name{font:700 2rem/1.2 Newsreader,Georgia,serif}
+.next-when{color:#b9c4e6}
+.count{display:flex;gap:.6rem}
+.count div{min-width:82px;background:rgba(255,255,255,.1);border-radius:10px;padding:.7rem .4rem;text-align:center}
+.count b{display:block;font:700 1.8rem/1 Newsreader,Georgia,serif}
+.count span{font-size:.8rem;color:#b9c4e6}
+
+/* Weekly schedule */
+.section-title{margin-top:0}
+.times{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem;margin-top:1.5rem}
+.time{background:var(--bg);border:1px solid var(--line);border-top:5px solid var(--red);border-radius:10px;padding:1.1rem 1.3rem}
+.time h3{margin:0 0 .2rem}
+.time .d{font-weight:600;color:var(--red-deep)}
+.time .t{font-weight:500}
+.time p{color:var(--muted);margin:.4rem 0 0;font-size:.97rem}
+
+/* Layout helpers */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.stack{display:grid;gap:1.1rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem}
+.card p{margin:0;color:var(--muted);font-size:.98rem}
+
+/* Order of service */
+.order{list-style:none;margin:1.5rem 0 0;padding:0;counter-reset:step;display:grid;gap:.6rem}
+.order li{counter-increment:step;display:flex;align-items:center;gap:1rem;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.8rem 1.1rem}
+.order li::before{content:counter(step);flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--red);color:var(--on-red);display:grid;place-items:center;font-weight:600;font-size:.95rem}
+.order li.study{background:var(--gold-soft);border-color:#ecd88f}
+.order .tag{margin-left:auto;font-weight:600;color:var(--red-deep);font-size:.92rem;white-space:nowrap}
+.order-note{color:var(--muted);margin-top:1rem}
+
+/* Verse band */
+.verse{background:var(--navy);color:#f4f7fc;text-align:center;padding:4rem 0}
+.verse blockquote{font:500 clamp(1.5rem,4vw,2.3rem)/1.3 Newsreader,Georgia,serif;margin:0 auto;max-width:26ch}
+.verse cite{display:block;margin-top:1rem;color:var(--gold);font-style:normal;font-weight:600}
+
+/* Contact */
+.contact-list{list-style:none;padding:0;margin:0;display:grid;gap:1rem}
+.contact-list li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1rem 1.2rem}
+.contact-list b{display:block}
+.contact-list .sub{color:var(--muted);font-size:.95rem}
+.contact-list .links{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.5rem}
+.contact-list a{color:var(--red);font-weight:600}
+
+/* Footer */
+footer{background:var(--red-deep);color:#ffd9d2;padding:2rem 0;font-size:.95rem}
+footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+/* Mobile */
+@media (max-width:820px){
+  section{padding:3.2rem 0}
+  .hero{padding:3rem 0}
+  .hero .wrap,.cols{grid-template-columns:1fr}
+  .hero-logo{order:-1;width:180px}
+  .top nav{gap:.9rem}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <img src="images/logo.png" alt="">
+      <span>Church of Christ</span>
+    </a>
+    <nav aria-label="Main">
+      <a href="#services">Services</a>
+      <a href="#order">Order of service</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1>We salute you.</h1>
+        <p class="lead">The churches of Christ salute you. Come as you are and worship with us at 35 Onwe Road, Abakaliki.</p>
+        <div class="btns">
+          <a class="btn solid" href="#services">See service times</a>
+          <a class="btn ghost" href="#contact">Find us</a>
+        </div>
+      </div>
+      <img class="hero-logo" src="images/logo.png" alt="Church of Christ logo: an open Bible above a handshake, with Romans 16:16">
+    </div>
+  </section>
+
+  <!-- NEXT GATHERING + WEEKLY SCHEDULE -->
+  <section id="services" class="band">
+    <div class="wrap">
+      <div class="next" aria-live="polite">
+        <div>
+          <h2>Next gathering</h2>
+          <div class="next-name" id="nextName">Sunday Service</div>
+          <div class="next-when" id="nextWhen">Loading…</div>
+        </div>
+        <div class="count" role="timer">
+          <div><b id="cd">0</b><span>days</span></div>
+          <div><b id="ch">0</b><span>hours</span></div>
+          <div><b id="cm">0</b><span>minutes</span></div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Our weekly gatherings</h2>
+      <p>Everyone is welcome at every gathering.</p>
+      <div class="times" id="times"></div>
+    </div>
+  </section>
+
+  <!-- ORDER OF SERVICE -->
+  <section id="order">
+    <div class="wrap">
+      <h2>Sunday order of service</h2>
+      <p>Our Sunday service runs from 8:45 AM to 12:00 noon. This is how the morning flows.</p>
+      <ol class="order">
+        <li>Songs</li>
+        <li>Opening prayer</li>
+        <li class="study">Bible study <span class="tag">9:00 to 9:45 AM</span></li>
+        <li>Song</li>
+        <li>Prayer</li>
+        <li>Sermon</li>
+        <li>Call for baptism</li>
+        <li>The Lord’s Supper</li>
+        <li>Giving</li>
+        <li>Announcements</li>
+        <li>Song</li>
+        <li>Closing prayer</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- VERSE BAND -->
+  <div class="verse">
+    <div class="wrap">
+      <blockquote>The churches of Christ salute you.</blockquote>
+      <cite>Romans 16:16</cite>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap cols">
+      <div>
+        <h2>Who we are</h2>
+        <p>We are a congregation of the Church of Christ in Abakaliki, gathering each week to worship, study the Bible and encourage one another.</p>
+        <p>Whether you are new to the city or have been looking for a church home, you are welcome to join us.</p>
+      </div>
+      <div class="stack">
+        <div class="card"><h3>Come and worship</h3><p>Join us on Sundays from 8:45 AM, and on Tuesday, Wednesday and Friday evenings for our classes.</p></div>
+        <div class="card"><h3>Study the Bible with us</h3><p>Bible study is part of every Sunday service, and our Wednesday Bible class is open to all.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="band">
+    <div class="wrap cols">
+      <div>
+        <h2>Find us</h2>
+        <p>We would love to see you. Call or message us with any question, or simply walk in on any service day.</p>
+        <p><b>Address</b><br>35 Onwe Road, Abakaliki</p>
+        <div class="btns">
+          <a class="btn solid" id="mapLink" href="#" target="_blank" rel="noopener">Open in Google Maps</a>
+        </div>
+      </div>
+      <ul class="contact-list" id="contacts"></ul>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Church of Christ, Abakaliki. All rights reserved.</span>
+    <span>Romans 16:16</span>
+  </div>
+</footer>
+
+<script>
+/* ===== EDIT THIS BLOCK TO UPDATE THE SITE ===== */
+const CONFIG = {
+  address: "35 Onwe Road, Abakaliki, Ebonyi State, Nigeria",
+
+  /* day: 0 = Sunday ... 6 = Saturday. h = hour (24h), m = minutes */
+  services: [
+    { day: 0, h: 8,  m: 45, endH: 12, endM: 0, name: "Sunday Service",  note: "Songs, Bible study, sermon, the Lord’s Supper and more." },
+    { day: 2, h: 16, m: 50, endH: 18, endM: 0, name: "Sisters’ Class",  note: "A class for the sisters of the church." },
+    { day: 3, h: 16, m: 50, endH: 18, endM: 0, name: "Bible Class",     note: "Study the scriptures together and ask your questions." },
+    { day: 5, h: 16, m: 50, endH: 18, endM: 0, name: "Youth Class",     note: "Bible teaching and fellowship for the youth." }
+  ],
+
+  /* To add the preacher later, copy a block and fill in his name and number */
+  contacts: [
+    { title: "Youth President", sub: "Enquiries about the youth class", phone: "+2348146765418" },
+    { title: "Sisters’ Enquiries", sub: "Enquiries about the sisters’ class", phone: "+2348032761204" }
+  ]
+};
+/* ============================================== */
+
+const DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+function fmtTime(h, m) {
+  const ap = h >= 12 ? "PM" : "AM";
+  return ((h + 11) % 12 + 1) + ":" + String(m).padStart(2, "0") + " " + ap;
+}
+
+/* Weekly schedule cards */
+document.getElementById("times").innerHTML = CONFIG.services.map(s =>
+  `<div class="time">
+     <h3>${s.name}</h3>
+     <div class="d">${DAYS[s.day]}s</div>
+     <div class="t">${fmtTime(s.h, s.m)} to ${fmtTime(s.endH, s.endM)}</div>
+     <p>${s.note}</p>
+   </div>`
+).join("");
+
+/* Contact cards */
+document.getElementById("contacts").innerHTML = CONFIG.contacts.map(c => {
+  const digits = c.phone.replace(/\D/g, "");
+  return `<li>
+    <b>${c.title}</b>
+    <span class="sub">${c.sub}</span>
+    <div class="links">
+      <a href="tel:${c.phone}">Call ${c.phone}</a>
+      <a href="https://wa.me/${digits}" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </li>`;
+}).join("");
+
+document.getElementById("mapLink").href =
+  "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(CONFIG.address);
+document.getElementById("yr").textContent = new Date().getFullYear();
+
+/* Countdown to the next gathering */
+function nextService() {
+  const now = new Date();
+  let best = null;
+  CONFIG.services.forEach(s => {
+    const t = new Date(now);
+    t.setHours(s.h, s.m, 0, 0);
+    t.setDate(t.getDate() + ((s.day - now.getDay() + 7) % 7));
+    if (t <= now) t.setDate(t.getDate() + 7);
+    if (!best || t < best.t) best = { t, s };
+  });
+  return best;
+}
+
+function tick() {
+  const n = nextService();
+  if (!n) return;
+  const diff = n.t - new Date();
+  document.getElementById("nextName").textContent = n.s.name;
+  document.getElementById("nextWhen").textContent =
+    DAYS[n.s.day] + ", " + fmtTime(n.s.h, n.s.m) + " to " + fmtTime(n.s.endH, n.s.endM);
+  document.getElementById("cd").textContent = Math.floor(diff / 864e5);
+  document.getElementById("ch").textContent = Math.floor(diff % 864e5 / 36e5);
+  document.getElementById("cm").textContent = Math.floor(diff % 36e5 / 6e4);
+}
+tick();
+setInterval(tick, 30000);
+</script>
+</body>
+</html>
