@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hymns | Church of Christ, Abakaliki</title>
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.page-head{background:linear-gradient(160deg,var(--red) 0%,var(--red-deep) 100%);color:var(--on-red);padding:3rem 0 2.5rem}
+.page-head h1{font-size:clamp(2.2rem,6vw,3.4rem);margin:0 0 .3em}
+.page-head p{color:#ffe3dc;margin:0}
+.hymns{padding:2.5rem 0 4rem}
+.search{width:100%;font:inherit;font-size:1.1rem;padding:.95rem 1.2rem;border:2px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink)}
+.search:focus{outline:none;border-color:var(--red)}
+.letters{display:flex;flex-wrap:wrap;gap:.4rem;margin:1.2rem 0}
+.letters button{font:inherit;font-weight:600;min-width:2.4rem;height:2.4rem;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.letters button:hover{border-color:var(--red)}
+.letters button.on{background:var(--red);border-color:var(--red);color:var(--on-red)}
+.count-line{color:var(--muted);margin:0 0 .8rem;font-size:.95rem}
+.results{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
+.results button{width:100%;text-align:left;font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.8rem 1.1rem;cursor:pointer;color:var(--ink)}
+.results button:hover{border-color:var(--red)}
+.results .ti{display:block;font-weight:600}
+.results .pv{display:block;color:var(--muted);font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.empty{color:var(--muted);padding:1rem 0}
+.reader[hidden],.browse[hidden]{display:none}
+.tools{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.tools button,.tools a{font:inherit;font-weight:600;font-size:.95rem;padding:.55rem 1rem;border-radius:999px;border:2px solid var(--red);background:transparent;color:var(--red);cursor:pointer;text-decoration:none}
+.tools button:hover,.tools a:hover{background:var(--red);color:var(--on-red)}
+.reader h2{margin-bottom:1rem}
+.verse-block{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:10px;padding:1.1rem 1.4rem;margin-bottom:1rem;white-space:pre-line;line-height:1.8;font-size:var(--lyric,1.2rem)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <img src="logo.png" alt="">
+      <span>Church of Christ</span>
+    </a>
+    <nav aria-label="Main">
+      <a href="index.html#services">Services</a>
+      <a href="index.html#order">Order of service</a>
+      <a href="hymns.html">Hymns</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="wrap">
+    <h1>Our hymns</h1>
+    <p>Search by title or by any words from the song.</p>
+  </div>
+</section>
+
+<main class="hymns">
+  <div class="wrap">
+
+    <div class="browse" id="browse">
+      <input class="search" id="q" type="search" placeholder="Search for a hymn…" autocomplete="off" aria-label="Search hymns">
+      <div class="letters" id="letters" aria-label="Browse by letter"></div>
+      <p class="count-line" id="countLine"></p>
+      <ul class="results" id="results"></ul>
+    </div>
+
+    <article class="reader" id="reader" hidden>
+      <div class="tools">
+        <button id="back">Back to the list</button>
+        <button id="smaller" aria-label="Smaller text">A−</button>
+        <button id="bigger" aria-label="Bigger text">A+</button>
+        <a id="share" href="#" target="_blank" rel="noopener">Share on WhatsApp</a>
+      </div>
+      <h2 id="rTitle"></h2>
+      <div id="rBody"></div>
+    </article>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> Church of Christ, Abakaliki. All rights reserved.</span>
+    <span>Romans 16:16</span>
+  </div>
+</footer>
+
+<script>
+let HYMNS = [];
+let letter = "";
+let size = 1.2;
+const $ = id => document.getElementById(id);
+
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  .replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+
+$("yr").textContent = new Date().getFullYear();
+
+fetch("hymns.json")
+  .then(r => r.json())
+  .then(data => {
+    HYMNS = data.map(h => ({ ...h, _t: norm(h.title), _x: norm(h.slides.join(" ")) }));
+    buildLetters();
+    renderList();
+    openFromHash();
+  })
+  .catch(() => { $("results").innerHTML = '<li class="empty">Could not load the hymns. Please try again.</li>'; });
+
+function buildLetters() {
+  const letters = [...new Set(HYMNS.map(h => h.letter))].sort();
+  $("letters").innerHTML = "";
+  letters.forEach(L => {
+    const b = document.createElement("button");
+    b.textContent = L;
+    b.onclick = () => { letter = (letter === L ? "" : L); buildLettersActive(); renderList(); };
+    b.dataset.l = L;
+    $("letters").appendChild(b);
+  });
+}
+function buildLettersActive() {
+  document.querySelectorAll("#letters button").forEach(b => b.classList.toggle("on", b.dataset.l === letter));
+}
+
+function renderList() {
+  const q = norm($("q").value);
+  const words = q ? q.split(" ") : [];
+  let list = HYMNS.filter(h => (!letter || h.letter === letter) &&
+    words.every(w => h._t.includes(w) || h._x.includes(w)));
+
+  if (q) {
+    const score = h => h._t.startsWith(q) ? 0 : h._t.includes(q) ? 1 : words.every(w => h._t.includes(w)) ? 2 : 3;
+    list.sort((a, b) => score(a) - score(b) || a.title.localeCompare(b.title));
+  }
+
+  const shown = list.slice(0, 80);
+  $("countLine").textContent = list.length + (list.length === 1 ? " hymn" : " hymns") +
+    (list.length > shown.length ? " (showing the first " + shown.length + ", type more to narrow down)" : "");
+
+  const ul = $("results");
+  ul.innerHTML = "";
+  if (!shown.length) {
+    ul.innerHTML = '<li class="empty">No hymn found. Try fewer or different words.</li>';
+    return;
+  }
+  shown.forEach(h => {
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    const t = document.createElement("span"); t.className = "ti"; t.textContent = h.title;
+    const p = document.createElement("span"); p.className = "pv"; p.textContent = h.slides[0].replace(/\n/g, " ");
+    b.append(t, p);
+    b.onclick = () => { location.hash = h.id; };
+    li.appendChild(b);
+    ul.appendChild(li);
+  });
+}
+
+function openFromHash() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  const h = HYMNS.find(x => x.id === id);
+  if (!h) { $("reader").hidden = true; $("browse").hidden = false; return; }
+  $("rTitle").textContent = h.title;
+  const body = $("rBody");
+  body.innerHTML = "";
+  h.slides.forEach(s => {
+    const d = document.createElement("div");
+    d.className = "verse-block";
+    d.textContent = s;
+    body.appendChild(d);
+  });
+  $("share").href = "https://wa.me/?text=" + encodeURIComponent(h.title + " - " + location.href);
+  $("browse").hidden = true;
+  $("reader").hidden = false;
+  window.scrollTo(0, 0);
+}
+
+function setSize(v) {
+  size = Math.min(2.2, Math.max(0.9, v));
+  document.documentElement.style.setProperty("--lyric", size + "rem");
+}
+
+$("q").addEventListener("input", renderList);
+$("back").onclick = () => { history.pushState("", "", location.pathname); openFromHash(); };
+$("smaller").onclick = () => setSize(size - 0.15);
+$("bigger").onclick = () => setSize(size + 0.15);
+window.addEventListener("hashchange", openFromHash);
+</script>
+</body>
+</html>
