@@ -33,6 +33,7 @@
 .tools button:hover,.tools a:hover{background:var(--red);color:var(--on-red)}
 .reader h2{margin-bottom:1rem}
 .verse-block{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:10px;padding:1.1rem 1.4rem;margin-bottom:1rem;white-space:pre-line;line-height:1.8;font-size:var(--lyric,1.2rem)}
+.credits{color:var(--muted);font-size:.85rem;white-space:pre-line;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -78,6 +79,7 @@
       </div>
       <h2 id="rTitle"></h2>
       <div id="rBody"></div>
+      <div class="credits" id="rCredits"></div>
     </article>
 
   </div>
@@ -172,6 +174,7 @@ function openFromHash() {
     d.textContent = s;
     body.appendChild(d);
   });
+  $("rCredits").textContent = h.credits || "";
   $("share").href = "https://wa.me/?text=" + encodeURIComponent(h.title + " - " + location.href);
   $("browse").hidden = true;
   $("reader").hidden = false;
